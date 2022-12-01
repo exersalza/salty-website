@@ -1,0 +1,107 @@
+* {
+    margin: 0;
+    padding: 0;
+    color: var(--text);
+    font-weight: 500;
+    font-family: "Source Code Pro", monospace;
+}
+
+:root {
+    --dark: #2F343F;
+    --almost-black: #21252B;
+    --bg: #2e2f43;
+    --bg-accent: #474E68;
+    --accent: #50577A;
+    --accent-b: #6B728E;
+    --text: #bebebe;
+    --link: #739FCC;
+    --link-hover: #3477c1;
+    --green: #3be12a;
+    --brown-yellow: #B49F00;
+}
+
+body {
+    background-color: var(--almost-black);
+    height: 100vh;
+    width: 100vw;
+}
+
+a {
+    color: var(--link);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.dot {
+    color: var(--link);
+    font-weight: 600;
+}
+
+a:hover, a:focus {
+    color: var(--link-hover);
+}
+
+.dir:before {
+    content: ".";
+}
+
+.dir:after {
+    content: "/";
+}
+
+.add-braces::before {
+    content: "{";
+}
+
+.add-braces::after {
+    content: "}";
+}
+
+.content {
+    position: absolute;
+    margin:.3%;
+    border: 1px solid var(--bg);
+    border-radius: 5px;
+    height: 95.5%;
+    width: 98%;
+    padding: 5px;
+}
+
+.ls-content {
+    position: absolute;
+    margin: 3px 0;
+
+}
+
+.full {
+    margin-top: 2px;
+    font-size: 20px !important;
+}
+
+.minimize {
+    top: 5px;
+}
+
+.home {
+    color: var(--green);
+    font-weight: 600;
+}
+
+.cmd {
+    font-weight: 650;
+    color: var(--green);
+}
+
+.grey {
+    color: var(--accent)
+}
+
+.yellow {
+    color: var(--brown-yellow);
+}
+
+.salty-logo {
+    background: -webkit-linear-gradient(#eee, #333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
