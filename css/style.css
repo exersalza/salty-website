@@ -37,6 +37,17 @@ a {
     font-weight: 600;
 }
 
+.dotfiles {
+    color: var(--link);
+    font-weight: 600;
+    text-decoration: none;
+    -webkit-text-fill-color: var(--link)
+}
+
+.dotfiles:hover {
+    color: var(--link-hover);
+}
+
 a:hover, a:focus {
     color: var(--link-hover);
 }
@@ -62,14 +73,19 @@ a:hover, a:focus {
     margin:.3%;
     border: 1px solid var(--bg);
     border-radius: 5px;
-    height: 95.5%;
-    width: 98%;
+    height: 95%;
+    width: 95%;
     padding: 5px;
 }
 
-.ls-content {
+.prefix {
     position: absolute;
-    margin: 3px 0;
+    margin: 5px 0;
+}
+
+
+.ls-content {
+    margin: 5px 0;
 
 }
 
@@ -104,4 +120,10 @@ a:hover, a:focus {
     background: -webkit-linear-gradient(#eee, #333);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.rst {
+    background: none;
+    color: var(--text);
+    -webkit-text-fill-color: var(--text);
 }
