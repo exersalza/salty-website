@@ -33,3 +33,21 @@ function openPortfolio() {
                 <a href="${data[i].url}">${data[i].name} :&nbsp;${data[i].desc}</a><br></span>`);
     }
 }
+
+// terminal stuff
+$(function() {
+    let term = $('#terminal');
+    let input = $('#term-input');
+
+    input.on("keyup", (e) => {
+        $('.current-cmd').text(input.val());
+        
+        if (e.which == 13) {
+            console.log("ENTER");
+        }
+    })
+
+    input.on("keydown", () => { // just for the deletion, that when you hold the button you see how much you delete. :)
+        $('.current-cmd').text(input.val());
+    })
+});

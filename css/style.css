@@ -76,6 +76,7 @@ a:hover, a:focus {
     height: 95%;
     width: 95%;
     padding: 5px;
+    overflow: auto;
 }
 
 .prefix {
@@ -100,11 +101,11 @@ a:hover, a:focus {
 
 .home {
     color: var(--green);
-    font-weight: 600;
+    font-weight: 550;
 }
 
 .cmd {
-    font-weight: 650;
+    font-weight: 500;
     color: var(--green);
 }
 
@@ -126,4 +127,39 @@ a:hover, a:focus {
     background: none;
     color: var(--text);
     -webkit-text-fill-color: var(--text);
+}
+
+/* Do something with the logo */
+.logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.logo-stats {
+
+}
+
+.terminal {
+    
+}
+
+.term-input {
+    background-color: transparent;
+    border: 0 transparent;
+    color: transparent;
+}
+
+.term-input:focus, .term-input:focus-visible {
+    outline: none;
+}
+
+.test {
+    display: block;
+    background-color: yellow;
+    height: 2vw;
+    width: 2vw;
+    margin-top: 4.5vh;
+    z-index: 999;
 }
