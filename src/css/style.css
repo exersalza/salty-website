@@ -24,6 +24,7 @@ body {
     background-color: var(--almost-black);
     height: 100vh;
     width: 100vw;
+    overflow: hidden;
 }
 
 a {
@@ -80,7 +81,6 @@ a:hover, a:focus {
 }
 
 .prefix {
-    position: absolute;
     margin: 5px 0;
 }
 
@@ -137,29 +137,30 @@ a:hover, a:focus {
     margin-bottom: 10px;
 }
 
-.logo-stats {
-
-}
-
-.terminal {
-    
-}
-
 .term-input {
     background-color: transparent;
     border: 0 transparent;
     color: transparent;
+    font-size: 1px !important;
 }
 
 .term-input:focus, .term-input:focus-visible {
     outline: none;
 }
 
-.test {
-    display: block;
-    background-color: yellow;
-    height: 2vw;
-    width: 2vw;
-    margin-top: 4.5vh;
-    z-index: 999;
+#terminal-content {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Command Styling */
+.help-apex {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.help-content {
+
 }
