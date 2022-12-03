@@ -33,6 +33,12 @@ a {
     text-decoration: none;
 }
 
+.portfolio {
+    color: var(--link);
+    font-weight: 600;
+    text-decoration: none;
+}
+
 .dot {
     color: var(--link);
     font-weight: 600;
@@ -157,10 +163,26 @@ a:hover, a:focus {
 
 /* Command Styling */
 .help-apex {
-    font-weight: 600;
+    font-weight: 550;
     font-size: 1.5rem;
 }
 
-.help-content {
+.help-desc {
+    font-size: .8rem;
+}
 
+.help-desc::before {
+    content: "- ";
+}
+
+.help-items {
+    margin-top: 5px;
+}
+
+.help-items::before {
+    content: "> ";
+}
+
+.help-arg {
+    font-weight: 600;
 }

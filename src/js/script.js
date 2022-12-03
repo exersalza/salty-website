@@ -6,6 +6,7 @@ const console_string = `<span class="prefix term-items">
                             <span class="current-cmd"></span>
                         </span>`;
 
+                        
 data = [
     {
         name: "salty-cpp-bot",
@@ -19,13 +20,56 @@ data = [
     },
 ]
 
+dirs = {
+    github: '<a href="https://github.com/exersalza">exersalza@git</a>',
+    kenexar: '<a href="https://kenexar.eu">kenexar</a>',
+    twitch: '<a href="https://twitch.tv/exersalza">exersalza@twitch</a>',
+    portfolio: openPortfolio,
+}
+
 cmds = {
     clear: function() { $('.term-items').remove(); },
+    ls: function(arg) {
+        let ret = `
+        <span class="term-items">
+            <span class="dot">. ..</span>
+            <a href="https://github.com/exersalza" class="dir">github</a>
+            <a href="https://kenexar.eu" class="dir">kenexar</a>
+            <a href="https://twitch.tv/exersalza" class="dir">twitch</a>
+            <span class="dir portfolio">portfolio</span>
+        </span>
+        `;
+        if (!arg) {
+            term_content.append(ret);
+            return;
+        }
+        
+        console.log()
+        if (dirs[arg] != undefined && typeof dirs[arg] === "function") {
+            dirs[arg]()
+            return;
+        }
+
+        term_content.append(`<span class="term-items"> 
+                                ${(dirs[arg] != undefined) ? dirs[arg] : ret} 
+                            </span>`)
+
+
+    },
     help: function() { 
         term_content.append(`
             <span class="term-items">
                 <p class="help-apex">Help Site</p>
-                <p class="help-content">Help Content</p>
+                <p class="help-content">Legend: <br>-> Anything in <> are parameters that you can give the command to process.</p>
+
+                <p class="help-items">help</p>
+                <p class="help-desc">This show's you this site.</p>
+
+                <p class="help-items">clear</p>
+                <p class="help-desc">Clears the terminal for you.</p>
+
+                <p class="help-items">ls &lt;dir name&gt;</p>
+                <p class="help-desc">List current directory.</p>
             </span>
         `);
      },
@@ -42,14 +86,10 @@ function displayClock() {
 }
 
 function openPortfolio() {
-    let portfolio = $('.portfolio');
-
     $('.portfolio-member').remove();
 
-    $('#1 > .cmd').html('ls -la .Portfolio/');
-
     for (let i in data) {
-        portfolio.append(`<span class="portfolio-member">drwxr-xr-x ${i} julian exersalza 4096 
+        term_content.append(`<span class="portfolio-member">drwxr-xr-x ${i} julian exersalza 4096 
                 <a href="${data[i].url}">${data[i].name} :&nbsp;${data[i].desc}</a><br></span>`);
     }
 }
@@ -70,13 +110,17 @@ $(function() {
     term_content = $('#terminal-content');
 
     // show console line
+    term_content.append('<span class="motd term-items">type help for information.</span>');
     add_line(console_string);
 
     input.on("keyup", (e) => {
         if (e.which == 13) {
             // validation
-            if (input.val() in cmds) {
-                cmds[input.val()]();
+            if (input.val().split(" ")[0] in cmds) {
+                let val = input.val().split(" ");
+
+                let arg = (val.length >= 2) ? val[1] : "";
+                cmds[val[0]](arg);
 
             } else {
                 if (input.val() != "") {
