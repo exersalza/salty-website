@@ -3,7 +3,7 @@ let term_content;
 
 const console_string = `<span class="prefix term-items">
                             julian@salty <span class="grey">::</span> <span class="home">~/</span> >
-                            <span class="current-cmd"></span>
+                            <span class="current-cmd"></span><span class="cursor"></span>
                         </span>`;
 
                         
@@ -72,17 +72,10 @@ cmds = {
                 <p class="help-desc">List current directory.</p>
             </span>
         `);
-     },
-}
-
-function displayClock() {
-    let a;
-    let time;
-    setInterval(() => {
-        a = new Date();
-        time = a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds();
-        document.getElementById('clock').innerHTML = time;
-    }, 1000);
+    },
+    jack: function() {
+        window.location.href = "img/logo.png";
+    }
 }
 
 function openPortfolio() {
@@ -110,7 +103,7 @@ $(function() {
     term_content = $('#terminal-content');
 
     // show console line
-    term_content.append('<span class="motd term-items">type help for information.</span>');
+    term_content.append('<span class="motd term-items">type \'help\' for information.</span>');
     add_line(console_string);
 
     input.on("keyup", (e) => {
@@ -128,8 +121,8 @@ $(function() {
                 }
             }
 
-            let t = $('.current-cmd');
-            t.attr('class', 'old-cmd');
+            $('.current-cmd').attr('class', 'old-cmd');
+            $('.cursor').attr('class', 'old-cursor');
 
             input.val('');
             add_line(console_string);

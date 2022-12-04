@@ -160,6 +160,29 @@ a:hover, a:focus {
     flex-direction: column;
 }
 
+@keyframes blink-animation {
+    0% {
+        visibility: hidden;
+    }
+
+    50% {
+        visibility: visible;
+    }
+
+    100% {
+        visibility: hidden;
+    }
+}
+
+.cursor {
+    display: inline-block;
+    position: relative;
+    height: 18px;
+    width: 8px;
+    top: 3px;
+    animation: blink-animation 1s steps(3) infinite;
+    background-color: #fff;
+}
 
 /* Command Styling */
 .help-apex {
