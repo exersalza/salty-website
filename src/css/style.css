@@ -37,10 +37,6 @@ a {
     text-decoration: none;
 }
 
-::-webkit-scrollbar {
-    width: .1px
-}
-
 .portfolio {
     color: var(--link);
     font-weight: 600;
