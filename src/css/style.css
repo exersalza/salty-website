@@ -4,6 +4,7 @@
     color: var(--text);
     font-weight: 500;
     font-family: "Source Code Pro", monospace;
+    scroll-behavior: smooth;
 }
 
 :root {
@@ -34,6 +35,10 @@ a {
     color: var(--link);
     font-weight: 600;
     text-decoration: none;
+}
+
+::-webkit-scrollbar {
+    width: .1px
 }
 
 .portfolio {
@@ -163,17 +168,12 @@ a:hover, a:focus {
     flex-direction: column;
 }
 
-@keyframes blink-animation {
-    0% {
-        visibility: hidden;
+@keyframes blink {
+    0%, 100% {
+        opacity: 1
     }
-
     50% {
-        visibility: visible;
-    }
-
-    100% {
-        visibility: hidden;
+        opacity: 0
     }
 }
 
@@ -183,7 +183,7 @@ a:hover, a:focus {
     height: 18px;
     width: 8px;
     top: 3px;
-    animation: blink-animation 1s steps(3) infinite;
+    animation: blink 1s steps(1) infinite;
     background-color: #fff;
 }
 
