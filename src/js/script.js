@@ -92,7 +92,7 @@ function add_line(str) {
 };
 
 function validate_cmds(cmd) {
-
+    // will get use later, it's for that the cmd is red as long it's a valid command.
 }
 
 // terminal stuff
@@ -133,8 +133,6 @@ $(function() {
     })
 
     input.on("keydown", (e) => { // just for the deletion, that when you hold the button you see how much you delete. :)
-        if (e.which === 8) {
-            $('.current-cmd').text(input.val());
-        }
+        $('.current-cmd').text(input.val());
     })
 });
