@@ -103,7 +103,7 @@ $(function() {
     term_content = $('#terminal-content');
 
     // show console line
-    term_content.append('<span class="motd term-items">type \'help\' for information. <a href="mailto:squidodle44@gmail.com">contact</a></span>');
+    term_content.append('<span class="motd term-items">type \'help\' for information. <a href="mailto:exersalza.dev@gmail.com">contact</a></span>');
     add_line(console_string);
 
     input.on("keyup", (e) => {
