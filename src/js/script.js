@@ -60,7 +60,7 @@ cmds = {
         term_content.append(`
             <span class="term-items">
                 <p class="help-apex">Help Site</p>
-                <p class="help-content">Legend: <br>-> Anything in <> are parameters that you can give the command to process.</p>
+                <p class="help-content">Info: <br>-> Anything in <> are parameters that you can give the command to process.</p>
 
                 <p class="help-items">help</p>
                 <p class="help-desc">This show's you this site.</p>
