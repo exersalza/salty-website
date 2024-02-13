@@ -2,49 +2,50 @@ import {useEffect, useState} from "preact/hooks";
 import {Icons} from "./Icons.jsx";
 import DirectoryParentItem from "./DirectoryParentItem.jsx";
 import {getRemoteRepos} from "./utils/utils.js";
+import Markdown from "react-markdown";
 
 export default function DirectoryListener() {
     const folder_icons = [Icons.folder(), Icons.folder_open()];
+    const activeItem = useState("");
     const [items, setItems] = useState({
         Projects: {
-            icons: folder_icons, toggled: false, children: [
-                {icon: Icons.document(), name: "Loading...", active: false},
-            ]
+            icons: [Icons.folder(), Icons.folder_open()],
+            toggled: false,
+            children: [{icon: Icons.document(), name: "Loading...", active: false}]
         },
         MoreProjects: {
-            icons: folder_icons, toggled: false, children: [
-                {icon: Icons.document(), name: "Yup", active: false},
-            ]
+            icons: [Icons.folder(), Icons.folder_open()],
+            toggled: false,
+            children: [{icon: Icons.document(), name: "Yup", active: false}]
         }
     });
 
-    useEffect(async () => {
-        getRemoteRepos().then((d) => {
-            let ret = [];
-
-            for (let i in d) {
-                let f = d[i];
-                let lang = String(f.language).toLowerCase();
-                if (lang === "null") {
-                    lang = undefined;
-                }
-
-                ret.push({
-                    name: f.name,
-                    lang: f.language,
-                    stars: f.stargazers_count,
-                    url: f.url,
-                    icon: (Icons[lang] ?? Icons.document)()
+    useEffect(() => {
+        async function getRepos() {
+            try {
+                const remoteRepos = await getRemoteRepos();
+                const updatedProjects = remoteRepos.map(repo => {
+                    return ({
+                        name: repo.name,
+                        lang: repo.language ? repo.language.toLowerCase() : undefined,
+                        stars: repo.stargazers_count,
+                        url: repo.url,
+                        readme: `${repo.url}/${repo.default_branch}/README.md`,
+                        icon: (Icons[repo.language?.toLowerCase()] ?? Icons.document())
+                    })
                 });
-
+                setItems(prevItems => (
+                    {...prevItems, Projects: {...prevItems.Projects, children: updatedProjects}}
+                ))
+            } catch (e) {
+                console.error("Failed to fetch remote repositories: ", e);
             }
+        }
 
-            setItems({...items, Projects: {...items.Projects, children: ret}})
-        }).catch((e) => console.error(e))
+        getRepos();
     }, []);
 
-    function toggleItem(e) { // yep javascript stuff happening here
-        let name = e.target.dataset.name;
+    function toggleItem(name) { // yep javascript stuff happening here
         setItems(prevItems => ({
             ...prevItems,
             [name]: {
@@ -54,19 +55,19 @@ export default function DirectoryListener() {
         }))
     }
 
-    function toggleActive(e) {
-        const target = e.target.dataset;
-        const name = target.name;
-        let local = {};
-
-        Object.entries(items).map(([k, v]) => {
-            let kids = [];
-            for (let i in v.children) {
-                kids.push({...v.children[i], active: v.children[i].name === name})
-            }
-            local[k] = {...v, children: [...kids]};
-        });
-        setItems(local);
+    function toggleActive(name) {
+        setItems(prevItems => ({
+            ...Object.fromEntries(Object.entries(prevItems).map(([k, v]) => [
+                k,
+                {
+                    ...v,
+                    children: value.children.map(child => ({
+                        ...child,
+                        active: child.name === name
+                    }))
+                }
+            ]))
+        }))
     }
 
     return (
@@ -79,7 +80,7 @@ export default function DirectoryListener() {
                             Object.entries(items).map(([k, v]) => (
                                 <DirectoryParentItem name={k}
                                                      onClick={toggleItem}
-                                                     icon={v.toggled ? Icons.folder_open() : Icons.folder()}
+                                                     icon={v.toggled ? v.icons[1] : v.icons[0]}
                                                      toggled={v.toggled}
                                                      children={v.children}
                                                      toggleChild={toggleActive}/>
@@ -89,6 +90,9 @@ export default function DirectoryListener() {
                 </div>
             </div>
             <div className={"border-l w-full h-full border-gray-500"}>
+                <div className={"h-full w-full"}>
+                    <Markdown>{}</Markdown>
+                </div>
             </div>
         </div>
     )

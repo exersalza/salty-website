@@ -13,15 +13,17 @@ import {
 } from "@mdi/js";
 import {Icon} from "@mdi/react";
 
+// const 1 = .75;
+
 export const Icons = {
     folder: function () {
-        return (<Icon path={mdiFolder} size={1} color={"white"}/>)
+        return (<Icon path={mdiFolder} color={"white"} size={1}/>)
     },
     folder_open: function () {
-        return (<Icon path={mdiFolderOpen} size={1} color={"white"}/>)
+        return (<Icon path={mdiFolderOpen} color={"white"} size={1}/>)
     },
     document: function () {
-        return (<Icon path={mdiFile} size={1} color={"white"}/>)
+        return (<Icon path={mdiFile} color={"white"} size={1}/>)
     },
     python: function () {
         return (<Icon path={mdiLanguagePython} color={"white"} size={1}/>)
