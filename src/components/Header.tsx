@@ -9,6 +9,7 @@ interface WsProps {
   switcher: Function
 }
 
+
 function Workspaces({ current, switcher }: WsProps) {
   const [workspace, _setWorkspace] = useState<Array<number>>([1, 2]);
   const [c, setC] = useState<number>(1);
