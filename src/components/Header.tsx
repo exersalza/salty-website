@@ -12,7 +12,7 @@ interface WsProps {
 
 function Workspaces({ current, switcher }: WsProps) {
   const [workspace, _setWorkspace] = useState<Array<number>>([1, 2]);
-  const [c, setC] = useState<number>(1);
+  const [c, setC] = useState<number>(1); // c -> counter
 
   function handleClick(e: any) {
     switcher(Number(e.target.dataset.id));
@@ -23,7 +23,7 @@ function Workspaces({ current, switcher }: WsProps) {
   return (
     <div class={"h-full pl-2 flex gap-1"}>
       {workspace.map((i) => {
-        return <p class={`${c == i ? "border-b" : ""} border-purple-500 w-4 flex place-content-center select-none`}
+        return <p class={`${c == i ? "border-b" : ""} cursor-pointer border-purple-500 w-4 flex place-content-center select-none`}
           data-id={i}
           onClick={handleClick}>{i}</p>
       })}
@@ -43,9 +43,9 @@ function ClockAndDate() {
   }, []);
 
   return (
-    <div class={"h-full"}>
-      {/*                          spaceship :) */}
-      <p>{time.toLocaleTimeString()} &lt;=&gt; {time.toLocaleDateString()}</p>
+    <div class={"h-full select-none"}>
+      {/*                      no spaceship :( */}
+      <p>{time.toLocaleTimeString()} {time.toLocaleDateString()}</p>
     </div>
   )
 }
