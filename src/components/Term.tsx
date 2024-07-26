@@ -1,29 +1,47 @@
-import { useState } from "preact/hooks";
+import { createRef } from "preact";
+import { useEffect, useState } from "preact/hooks";
 
 const COMMANDS = { hello: "sup [>'-']>" };
-const PREFIX = `
-<span class="prefix term-items">
- julian@salty <span class="">::</span> <span class="home">~/</span> >
- <span class="current-cmd"></span><span class="cursor"></span>
-</span>`;
 
 interface CmdProps {
-  cmd: string
+  cmd?: string
 }
 
-function Prefix() {
+interface PrefixProps {
+  pwd: string
+}
+
+function Prefix(props: PrefixProps) {
   return <span class="">
-    julian@salty <span class="text-gray-500">::</span> <span class="">~/</span> 
-    <span class=""></span><span class="cursor"></span>
+    <span className={"text-green-500"}>➜ </span> <span className="text-cyan-400">{props.pwd}</span>
   </span>
 }
 
-function CommandElement({ cmd }: CmdProps) {
+function FinishedCommandElement({ cmd }: CmdProps) {
   return (
     <div>
-      <Prefix />
-      <p>{cmd}</p>
+      <div className={"flex gap-2"}>
+        <Prefix pwd={"~"} /><span>{cmd}</span>
+      </div>
       <p>{COMMANDS[cmd]}</p>
+    </div>
+  )
+}
+
+function CommandElement({ }) {
+  const [cmd, setCmd] = useState<string>("");
+  const [value, setValue] = useState<string>("");
+  const inputRef = createRef<HTMLInputElement>();
+
+  return (
+    <div className={"flex gap-2"}>
+      <Prefix pwd="~" />
+      <input className={"bg-transparent min-w-max outline-0"}
+        size={50} 
+        ref={inputRef} 
+        onInput={() => {setValue(inputRef.current.value)}}
+        value={value}
+      />
     </div>
   )
 }
@@ -35,9 +53,10 @@ export function Term() {
     <div class={"w-full rounded bg-zinc-800 p-1 pt-0 font-mono"}>
       {pastCommands.map((ele: string) => {
         return (
-          <CommandElement cmd={ele} />
+          <FinishedCommandElement cmd={ele} />
         )
       })}
+      <CommandElement />
     </div>
   )
 }

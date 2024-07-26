@@ -1,4 +1,5 @@
 import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks"
+import { workspaceSwitcher } from "..";
 
 interface Props {
   content: { v: number, s: Dispatch<StateUpdater<number>> }
@@ -15,10 +16,12 @@ function Workspaces({ current, switcher }: WsProps) {
   const [c, setC] = useState<number>(1); // c -> counter
 
   function handleClick(e: any) {
-    switcher(Number(e.target.dataset.id));
+    const id = Number( e.target.dataset.id );
+    workspaceSwitcher.value = id;
+    switcher(id);
   }
 
-  useEffect(() => {setC(current)}, [current])
+  useEffect(() => { setC(current) }, [current])
 
   return (
     <div class={"h-full pl-2 flex gap-1"}>
