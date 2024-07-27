@@ -3,6 +3,8 @@ declare global {
     interface HTMLAttributes {
       base?: HTMLDivElement,
     }
+    interface EventTarget {
+    }
   }
 }
 
