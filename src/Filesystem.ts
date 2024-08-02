@@ -4,7 +4,9 @@ export const directories = {
     "boot": {},
     "dev": {},
     "etc": {},
-    "home": {},
+    "home": {
+      "julian": {}
+    },
     "lib": {},
     "lib64": {},
     "lost+found": {},

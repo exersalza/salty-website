@@ -1,5 +1,6 @@
 import { Dispatch, useEffect, useRef, useState } from "preact/hooks";
-import { COMMANDS, contains } from "../utils";
+import { contains } from "../utils";
+import { COMMANDS } from "../commands";
 
 
 interface FCmdProps {
@@ -30,9 +31,11 @@ function getCmd(cmd: string): any {
 }
 
 function Prefix(props: PrefixProps) {
-  return <span class="">
-    <span className={"text-green-500"}>➜ </span> <span className="text-cyan-400">{props.pwd}</span>
-  </span>
+  return (
+    <span class="">
+      <span className={"text-green-500"}>➜ </span> <span className="text-cyan-400">{props.pwd}</span>
+    </span>
+  )
 }
 
 function FinishedCommandElement({ cmd }: FCmdProps) {

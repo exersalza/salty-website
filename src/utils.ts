@@ -1,7 +1,3 @@
-export const COMMANDS = {
-  hello: () => "sup [>'-']>",
-  clear: () => { },
-};
 
 
 export function contains(needle: string, haystack: object): boolean {
