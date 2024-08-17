@@ -2,7 +2,8 @@ export const directories = {
   "/": {
     "bin": {},
     "boot": {},
-    "dev": {},
+    "dev": {
+    },
     "etc": {},
     "home": {
       "julian": {}

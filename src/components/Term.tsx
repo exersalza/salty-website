@@ -39,13 +39,13 @@ function Prefix(props: PrefixProps) {
 }
 
 function FinishedCommandElement({ cmd }: FCmdProps) {
-  console.log(getCmd(cmd))
+  console.log(typeof getCmd(cmd)());
   return (
     <div>
       <div className={"flex gap-2"}>
         <Prefix pwd={"~"} /><span className={`${contains(cmd, COMMANDS) ? "text-green-500" : "text-red-500"}`}>{cmd}</span>
       </div>
-      <p>{getCmd(cmd)()}</p>
+      {getCmd(cmd)()}
     </div>
   )
 }
