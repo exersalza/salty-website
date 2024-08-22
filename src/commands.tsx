@@ -1,6 +1,6 @@
 
 export const COMMANDS = {
-  hello: () => <p>sup [&le;'-']&le;</p>,
+  hello: () => <p>sup [&gt;'-']&gt;</p>,
   clear: () => { },
   cls: () => { },
   ls: () => <Ls />

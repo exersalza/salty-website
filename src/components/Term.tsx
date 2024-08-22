@@ -2,6 +2,8 @@ import { Dispatch, useEffect, useRef, useState } from "preact/hooks";
 import { contains } from "../utils";
 import { COMMANDS } from "../commands";
 
+export let PWD = "~";
+export const CMD_LENGTH = 64;
 
 interface FCmdProps {
   cmd?: string
@@ -43,7 +45,7 @@ function FinishedCommandElement({ cmd }: FCmdProps) {
   return (
     <div>
       <div className={"flex gap-2"}>
-        <Prefix pwd={"~"} /><span className={`${contains(cmd, COMMANDS) ? "text-green-500" : "text-red-500"}`}>{cmd}</span>
+        <Prefix pwd={PWD} /><span className={`${contains(cmd, COMMANDS) ? "text-green-500" : "text-red-500"}`}>{cmd}</span>
       </div>
       {getCmd(cmd)()}
     </div>
@@ -57,7 +59,7 @@ function CommandElement({ setPastCommands }: CMDProps) {
   function handleOnEnter(e: KeyboardEvent) {
     if (e.key === "Enter") {
       let v = inputRef.current.value;
-      setPastCommands((prev: string[]) => [...prev, v]);
+      setPastCommands((prev: string[]) => prev.concat([v]));
 
       if (v === "clear" || v === "cls") {
         setPastCommands([]);
@@ -76,15 +78,17 @@ function CommandElement({ setPastCommands }: CMDProps) {
     }
   }, []);
 
+  PWD = Math.random()
+
   return (
     <div className={"flex gap-2"}>
-      <Prefix pwd="~" />
+      <Prefix pwd={PWD} />
       <input className={`bg-transparent min-w-max outline-0 no-underline caret-white ${contains(value, COMMANDS) ? "text-green-500" : "text-red-500"}`}
-        size={50}
+        size={CMD_LENGTH}
         type="text"
         ref={inputRef}
         onInput={(e) => (setValue((e.target as HTMLInputElement).value))}
-        maxLength={50}
+        maxLength={CMD_LENGTH}
         spellcheck={false}
         autoFocus={true}
         onBlur={(e) => { (e.target as HTMLInputElement).focus() }}
