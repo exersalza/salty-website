@@ -1,16 +1,13 @@
+import { Hello } from "./commands/hello";
 
 export const COMMANDS = {
-  hello: () => <p>sup [&gt;'-']&gt;</p>,
-  clear: () => { },
-  cls: () => { },
-  ls: () => <Ls />
+  hello: () => Hello,
+  clear: () => Default,
+  ls: () => Default,
+  cls: () => Default,
+  neofetch: () => Default
 };
 
-
-function Ls() {
-  return (
-    <span>
-      test
-    </span>
-  )
+function Default() {
+  return <p></p>
 }

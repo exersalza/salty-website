@@ -1,6 +1,10 @@
+import { COMMANDS } from "./commands";
+
 export const directories = {
   "/": {
-    "bin": {},
+    "bin": {
+      ...COMMANDS
+    },
     "boot": {},
     "dev": {
     },

@@ -6,20 +6,25 @@ export let PWD = "~";
 export const CMD_LENGTH = 64;
 
 interface FCmdProps {
-  cmd?: string
+  cmd: string
+  pwd?: string
 }
 
 interface CMDProps {
-  setPastCommands?: Dispatch<string[]>,
-  pastCommands?: string[]
+  setPastCommands?: Dispatch<PastCommand[]>,
+  pastCommands?: PastCommand[]
 }
 
 interface PrefixProps {
   pwd: string
 }
 
-function getCmd(cmd: string): any {
-  if (cmd.length === 0) {
+type PastCommand = {
+  cmd: string,
+  pwd: string
+}
+
+function getCmd(cmd: string): any { if (cmd.length === 0) {
     return () => { }
   }
 
@@ -40,14 +45,19 @@ function Prefix(props: PrefixProps) {
   )
 }
 
-function FinishedCommandElement({ cmd }: FCmdProps) {
-  console.log(typeof getCmd(cmd)());
+function FinishedCommandElement(props: FCmdProps) {
+  let ToRender = getCmd(props.cmd)();
+  if (!ToRender) {
+    ToRender = () => { // create default
+      return <p></p>
+    }
+  }
   return (
     <div>
       <div className={"flex gap-2"}>
-        <Prefix pwd={PWD} /><span className={`${contains(cmd, COMMANDS) ? "text-green-500" : "text-red-500"}`}>{cmd}</span>
+        <Prefix pwd={props.pwd} /><span className={`${contains(props.cmd, COMMANDS) ? "text-green-500" : "text-red-500"}`}>{props.cmd}</span>
       </div>
-      {getCmd(cmd)()}
+      <ToRender />
     </div>
   )
 }
@@ -59,9 +69,9 @@ function CommandElement({ setPastCommands }: CMDProps) {
   function handleOnEnter(e: KeyboardEvent) {
     if (e.key === "Enter") {
       let v = inputRef.current.value;
-      setPastCommands((prev: string[]) => prev.concat([v]));
+      setPastCommands((prev: string[]) => prev.concat({cmd: v, pwd: pwd}));
 
-      if (v === "clear" || v === "cls") {
+      if (v === "clear" || v === "cls") { // special commands
         setPastCommands([]);
       }
 
@@ -78,11 +88,11 @@ function CommandElement({ setPastCommands }: CMDProps) {
     }
   }, []);
 
-  PWD = Math.random()
+  const PWD = Math.random()
 
   return (
     <div className={"flex gap-2"}>
-      <Prefix pwd={PWD} />
+      <Prefix pwd={String(PWD)} />
       <input className={`bg-transparent min-w-max outline-0 no-underline caret-white ${contains(value, COMMANDS) ? "text-green-500" : "text-red-500"}`}
         size={CMD_LENGTH}
         type="text"
@@ -98,13 +108,13 @@ function CommandElement({ setPastCommands }: CMDProps) {
 }
 
 export function Term() {
-  const [pastCommands, setPastCommands] = useState<string[]>([]);
+  const [pastCommands, setPastCommands] = useState<PastCommand[]>([]);
 
   return (
     <div class={"w-full rounded bg-zinc-800 p-1 pt-0 font-mono"}>
-      {pastCommands.map((ele: string) => {
+      {pastCommands.map((ele) => {
         return (
-          <FinishedCommandElement cmd={ele} />
+          <FinishedCommandElement pwd={ele.pwd} cmd={ele.cmd} />
         )
       })}
       <CommandElement setPastCommands={setPastCommands} />
