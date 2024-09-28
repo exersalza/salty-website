@@ -1,5 +1,4 @@
 import { workspaceSwitcher } from "..";
-
 import { useEffect, useState } from "preact/hooks"
 
 // todo:
@@ -20,12 +19,13 @@ export function Things() {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
+    // if we're not on the site, we dont want to render it.
     if (workspaceSwitcher.value !== 2 || cards.length !== 0) {
       return
     }
 
     fetch("https://api.github.com/users/exersalza/repos").then(async (d) => {
-      if (d.status !== 200) {
+      if (!d.ok) {
         return;
       }
 

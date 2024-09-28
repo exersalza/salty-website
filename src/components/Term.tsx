@@ -1,4 +1,4 @@
-import { Dispatch, useEffect, useRef, useState } from "preact/hooks";
+import { Dispatch, StateUpdater, useEffect, useRef, useState } from "preact/hooks";
 import { contains } from "../utils";
 import { COMMANDS } from "../commands";
 
@@ -11,8 +11,13 @@ interface FCmdProps {
 }
 
 interface CMDProps {
+<<<<<<< HEAD
   setPastCommands?: Dispatch<PastCommand[]>,
   pastCommands?: PastCommand[]
+=======
+  setPastCommands: Dispatch<StateUpdater<string[]>>,
+  pastCommands: string[]
+>>>>>>> ed57f21 (e)
 }
 
 interface PrefixProps {
@@ -45,6 +50,7 @@ function Prefix(props: PrefixProps) {
   )
 }
 
+<<<<<<< HEAD
 function FinishedCommandElement(props: FCmdProps) {
   let ToRender = getCmd(props.cmd)();
   if (!ToRender) {
@@ -52,6 +58,9 @@ function FinishedCommandElement(props: FCmdProps) {
       return <p></p>
     }
   }
+=======
+function FinishedCommandElement({ cmd }: FCmdProps) {
+>>>>>>> ed57f21 (e)
   return (
     <div>
       <div className={"flex gap-2"}>
@@ -69,7 +78,11 @@ function CommandElement({ setPastCommands }: CMDProps) {
   function handleOnEnter(e: KeyboardEvent) {
     if (e.key === "Enter") {
       let v = inputRef.current.value;
+<<<<<<< HEAD
       setPastCommands((prev: string[]) => prev.concat({cmd: v, pwd: pwd}));
+=======
+      setPastCommands((prev) => ([...prev, v]));
+>>>>>>> ed57f21 (e)
 
       if (v === "clear" || v === "cls") { // special commands
         setPastCommands([]);
@@ -88,8 +101,11 @@ function CommandElement({ setPastCommands }: CMDProps) {
     }
   }, []);
 
+<<<<<<< HEAD
   const PWD = Math.random()
 
+=======
+>>>>>>> ed57f21 (e)
   return (
     <div className={"flex gap-2"}>
       <Prefix pwd={String(PWD)} />
@@ -108,7 +124,11 @@ function CommandElement({ setPastCommands }: CMDProps) {
 }
 
 export function Term() {
+<<<<<<< HEAD
   const [pastCommands, setPastCommands] = useState<PastCommand[]>([]);
+=======
+  const [pastCommands, setPastCommands] = useState<string[]>(["help"]);
+>>>>>>> ed57f21 (e)
 
   return (
     <div class={"w-full rounded bg-zinc-800 p-1 pt-0 font-mono"}>
