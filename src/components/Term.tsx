@@ -11,24 +11,25 @@ interface FCmdProps {
 }
 
 interface CMDProps {
-  setPastCommands: Dispatch<StateUpdater<string[]>>,
-  pastCommands: string[]
+  setPastCommands: Dispatch<StateUpdater<PastCommands[]>>,
+  pastCommands: PastCommands[]
 }
 
 interface PrefixProps {
   pwd: string
 }
 
-type PastCommand = {
+type PastCommands = {
   cmd: string,
   pwd: string
 }
 
-function getCmd(cmd: string): any { if (cmd.length === 0) {
+function getCmd(cmd: string): any {
+  if (cmd.length === 0) {
     return () => { }
   }
 
-  let c = COMMANDS[cmd];
+  let c = COMMANDS[cmd][0];
 
   if (!c) {
     return () => `salt: command not found: ${cmd}`;
@@ -39,7 +40,7 @@ function getCmd(cmd: string): any { if (cmd.length === 0) {
 
 function Prefix(props: PrefixProps) {
   return (
-    <span class="">
+    <span>
       <span className={"text-green-500"}>➜ </span> <span className="text-cyan-400">{props.pwd}</span>
     </span>
   )
@@ -69,7 +70,7 @@ function CommandElement({ setPastCommands }: CMDProps) {
   function handleOnEnter(e: KeyboardEvent) {
     if (e.key === "Enter") {
       let v = inputRef.current.value;
-      setPastCommands((prev: PastCommand[]) => prev.concat({cmd: v, pwd: PWD}));
+      setPastCommands((prev: PastCommands[]) => prev.concat({ cmd: v, pwd: PWD }));
 
       if (v === "clear" || v === "cls") { // special commands
         setPastCommands([]);
@@ -106,7 +107,7 @@ function CommandElement({ setPastCommands }: CMDProps) {
 }
 
 export function Term() {
-  const [pastCommands, setPastCommands] = useState<PastCommand[]>([{cmd: "help", pwd: "~"}]);
+  const [pastCommands, setPastCommands] = useState<PastCommands[]>([{ cmd: "help", pwd: "~" }]);
 
   return (
     <div class={"w-full rounded bg-zinc-800 p-1 pt-0 font-mono"}>

@@ -1,34 +1,16 @@
 import { Hello } from "./commands/hello";
+import { Help } from "./commands/help";
+import { Ls } from "./commands/ls";
 
-export const COMMANDS = {
-  help: () => Help,
-  hello: () => Hello,
-  clear: () => Default,
-  ls: () => Ls,
-  cls: () => Default,
-  neofetch: () => Default
+export const COMMANDS: Record<string, Command> = {
+  help: [() => Help, "Displays this page"],
+  hello: [() => Hello, "Hello"],
+  clear: [() => Default, "Clears the screen"],
+  ls: [() => Ls, "List contents of current directory"],
+  cls: [() => Default, "Alias for clear"],
+  neofetch: [() => Default, "Does neofetch stuff"]
 };
 
 function Default() {
-  return <></>
-}
-
-function Help() {
-  return <ul className={""}>
-    <li>
-      <p className={""}>usage: help</p>
-    </li>
-    <br />
-    <li>
-      <p className={""}>Please</p>
-    </li>
-  </ul>
-}
-
-function Ls() {
-  return (
-    <span>
-      test
-    </span>
-  )
+  return <p>We aint serving that here, sorry</p>
 }
