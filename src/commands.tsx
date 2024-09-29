@@ -1,23 +1,17 @@
 import { Hello } from "./commands/hello";
 
 export const COMMANDS = {
-<<<<<<< HEAD
+  help: () => Help,
   hello: () => Hello,
   clear: () => Default,
-  ls: () => Default,
+  ls: () => Ls,
   cls: () => Default,
   neofetch: () => Default
 };
 
 function Default() {
-  return <p></p>
-=======
-  hello: () => <p>sup [&gt;'-']&gt;</p>,
-  help: () => <Help />,
-  clear: () => { },
-  cls: () => { },
-  ls: () => <Ls />
-};
+  return <></>
+}
 
 function Help() {
   return <ul className={""}>
@@ -37,5 +31,4 @@ function Ls() {
       test
     </span>
   )
->>>>>>> ed57f21 (e)
 }
