@@ -1,6 +1,10 @@
 import { JSX } from "preact";
 import { COMMANDS } from "../commands";
 
+const keybinds = [
+  [ "Alt_l + 1-9", "Switches Workspaces (only the ones in the top left)" ]
+]
+
 export function Help(): JSX.Element {
   return (
     <div className={"flex flex-col"}>
@@ -17,6 +21,13 @@ export function Help(): JSX.Element {
       ))}
       <br />
       <p>use: man &lt;command&gt; to get more information about a commmand</p>
+      <br />
+      {keybinds.map(([bind, desc]) => {
+        return <div className={"flex flex-col"}>
+          <p>{bind}</p>
+          <p className={"ml-4"}>{desc}</p>
+        </div>
+      })}
     </div>
   )
 }

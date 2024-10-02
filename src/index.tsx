@@ -1,14 +1,13 @@
-import { createContext, createRef, Ref, RefObject, render } from 'preact';
+import {  createRef, Ref, render } from 'preact';
 
 import './style.css';
 import { Term } from './components/Term';
 import { Header } from './components/Header';
-import { useContext, useEffect, useState } from 'preact/hooks';
+import {  useEffect, useState } from 'preact/hooks';
 import { Things } from './components/Things';
-import { Signal, signal } from '@preact/signals';
+import {  signal } from '@preact/signals';
 
 export const workspaceSwitcher = signal<number>();
-const contains = (needle: any, haystack: object): boolean => (Object.keys(haystack).indexOf(String(needle)) !== -1);
 const MAX_WS = 2;
 
 interface Props {
