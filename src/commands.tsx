@@ -14,3 +14,11 @@ export const COMMANDS: Record<string, Command> = {
 function Default() {
   return <p>We aint serving that here, sorry</p>
 }
+
+interface CommandNotFoundProps {
+  cmd: string;
+}
+
+export function CommandNotFound(props: CommandNotFoundProps) {
+  return <p>{ `salt: command not found: ${props.cmd}` }</p>
+}

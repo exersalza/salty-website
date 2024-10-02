@@ -15,6 +15,8 @@ export function Help(): JSX.Element {
           <p className={"ml-4"}>{COMMANDS[command][1]}</p>
         </div>
       ))}
+      <br />
+      <p>use: man &lt;command&gt; to get more information about a commmand</p>
     </div>
   )
 }

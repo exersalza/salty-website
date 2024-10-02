@@ -1,6 +1,7 @@
 import { Dispatch, StateUpdater, useEffect, useRef, useState } from "preact/hooks";
 import { contains } from "../utils";
-import { COMMANDS } from "../commands";
+import { CommandNotFound, COMMANDS } from "../commands";
+import { Command } from "vscode-css-languageservice";
 
 export let PWD = "~";
 export const CMD_LENGTH = 64;
@@ -12,7 +13,7 @@ interface FCmdProps {
 
 interface CMDProps {
   setPastCommands: Dispatch<StateUpdater<PastCommands[]>>,
-  pastCommands: PastCommands[]
+  pastCommands?: PastCommands[]
 }
 
 interface PrefixProps {
@@ -26,16 +27,14 @@ type PastCommands = {
 
 function getCmd(cmd: string): any {
   if (cmd.length === 0) {
-    return () => { }
+    return () => null
   }
 
-  let c = COMMANDS[cmd][0];
-
-  if (!c) {
-    return () => `salt: command not found: ${cmd}`;
+  if (!contains(cmd, COMMANDS)) {
+    return () => CommandNotFound;
   }
 
-  return c;
+  return COMMANDS[cmd][0];
 }
 
 function Prefix(props: PrefixProps) {
@@ -48,17 +47,13 @@ function Prefix(props: PrefixProps) {
 
 function FinishedCommandElement(props: FCmdProps) {
   let ToRender = getCmd(props.cmd)();
-  if (!ToRender) {
-    ToRender = () => { // create default
-      return <p></p>
-    }
-  }
+
   return (
     <div>
       <div className={"flex gap-2"}>
         <Prefix pwd={props.pwd} /><span className={`${contains(props.cmd, COMMANDS) ? "text-green-500" : "text-red-500"}`}>{props.cmd}</span>
       </div>
-      <ToRender />
+      <ToRender cmd={props.cmd} />
     </div>
   )
 }
@@ -70,11 +65,15 @@ function CommandElement({ setPastCommands }: CMDProps) {
   function handleOnEnter(e: KeyboardEvent) {
     if (e.key === "Enter") {
       let v = inputRef.current.value;
-      setPastCommands((prev: PastCommands[]) => prev.concat({ cmd: v, pwd: PWD }));
 
-      if (v === "clear" || v === "cls") { // special commands
-        setPastCommands([]);
+      let pastCmds: any;
+      if (contains(v, ["clear", "cls"])) { // special commands
+        pastCmds = [];
+      } else {
+        pastCmds = (prev: PastCommands[]) => prev.concat({ cmd: v, pwd: PWD });
       }
+
+      setPastCommands(pastCmds)
 
       inputRef.current.value = "";
     }
