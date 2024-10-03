@@ -15,13 +15,14 @@ export function Help(): JSX.Element {
       <br />
       {Object.keys(COMMANDS).map((command, index) => (
         <div key={index} className={"flex flex-col"}>
-          <p>{command}</p> 
+          <p className={"font-semibold"}>{command}</p> 
           <p className={"ml-4"}>{COMMANDS[command][1]}</p>
         </div>
       ))}
       <br />
       <p>use: man &lt;command&gt; to get more information about a commmand</p>
       <br />
+      <p>Keybinds</p>
       {keybinds.map(([bind, desc]) => {
         return <div className={"flex flex-col"}>
           <p>{bind}</p>

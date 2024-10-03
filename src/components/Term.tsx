@@ -1,7 +1,6 @@
 import { Dispatch, StateUpdater, useEffect, useRef, useState } from "preact/hooks";
-import { contains } from "../utils";
+import { contains, parseCommandArgs } from "../utils";
 import { CommandNotFound, COMMANDS } from "../commands";
-import { Command } from "vscode-css-languageservice";
 
 export let PWD = "~";
 export const CMD_LENGTH = 64;
@@ -22,7 +21,8 @@ interface PrefixProps {
 
 type PastCommands = {
   cmd: string,
-  pwd: string
+  pwd: string,
+  args?: Arg[]
 }
 
 function getCmd(cmd: string): any {
@@ -64,9 +64,9 @@ function CommandElement({ setPastCommands }: CMDProps) {
 
   function handleOnEnter(e: KeyboardEvent) {
     if (e.key === "Enter") {
-      let v = inputRef.current.value;
-
       let pastCmds: any;
+      let [v, args] = parseCommandArgs(inputRef.current.value);
+      
       if (contains(v, ["clear", "cls"])) { // special commands
         pastCmds = [];
       } else {

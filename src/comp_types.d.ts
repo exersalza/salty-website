@@ -1,11 +1,11 @@
-type Command = [content: () => JSX.Element, description: string];
-
-enum ArgType {
-  OPTIONAL,
-  MANDATORY // there is another word for it, but I don't know it
-}
+type Command = [content: () => JSX.Element, description: string, args?: Arg[]];
 
 type Arg = {
-  _type: ArgType,
-  name: string
+  name: string;
+  short?: string;
+  long?: string;
+}
+
+type ArgList = {
+  [key: string]: string;
 }

@@ -1,6 +1,8 @@
 import { Hello } from "./commands/hello";
 import { Help } from "./commands/help";
 import { Ls } from "./commands/ls";
+import { Man } from "./commands/man";
+
 
 export const COMMANDS: Record<string, Command> = {
   help: [() => Help, "Displays this page"],
@@ -8,7 +10,10 @@ export const COMMANDS: Record<string, Command> = {
   clear: [() => Default, "Clears the screen"],
   ls: [() => Ls, "List contents of current directory"],
   cls: [() => Default, "Alias for clear"],
-  neofetch: [() => Default, "Does neofetch stuff"]
+  neofetch: [() => Default, "Does neofetch stuff"],
+  man: [() => Man, "Shows help for the commands. man [COMMAND]", [{
+    name: "command",
+  }]]
 };
 
 function Default() {
@@ -20,5 +25,5 @@ interface CommandNotFoundProps {
 }
 
 export function CommandNotFound(props: CommandNotFoundProps) {
-  return <p>{ `salt: command not found: ${props.cmd}` }</p>
+  return <p>{`salt: command not found: ${props.cmd}`}</p>
 }

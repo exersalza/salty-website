@@ -1,3 +1,5 @@
+import { COMMANDS } from "./commands";
+
 export function contains(needle: string | symbol | number, haystack: Record<string | symbol | number, any>): boolean;
 export function contains(needle: string | symbol | number, haystack: any[]): boolean;
 
@@ -23,5 +25,22 @@ export function contains(needle: any, haystack: any): boolean {
   }
 }
 
+function parseArgTypes(cmd: string) {
+  let ret = {};
 
+}
 
+export function parseCommandArgs(input: string): [cmd: string, args: Record<string, string>] {
+  const slices = input.split(" ");
+  const cmd = slices[0];
+  const cmdParams = COMMANDS[cmd][2];
+  let retArgs = {};
+
+  if (cmdParams === undefined) {
+    return [cmd, retArgs];
+  }
+  
+  
+
+  return [cmd, retArgs];
+}
