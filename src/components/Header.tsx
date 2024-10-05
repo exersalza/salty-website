@@ -10,13 +10,19 @@ interface WsProps {
   switcher: Function
 }
 
+export const WORKSPACES = [1, 2]
+export const WORKSPACES_DESC = [
+  "Main workspace, you can do some Terminal stuff here", 
+  "My Github Repos, atleast the ones that are public"
+]
+
 
 function Workspaces({ current, switcher }: WsProps) {
-  const [workspace, _setWorkspace] = useState<Array<number>>([1, 2]);
+  const [workspace, _setWorkspace] = useState<Array<number>>(WORKSPACES);
   const [c, setC] = useState<number>(1); // c -> counter
 
   function handleClick(e: any) {
-    const id = Number( e.target.dataset.id );
+    const id = Number(e.target.dataset.id);
     workspaceSwitcher.value = id;
     switcher(id);
   }

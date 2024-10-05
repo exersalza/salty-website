@@ -27,20 +27,16 @@ export function contains(needle: any, haystack: any): boolean {
 
 function parseArgTypes(cmd: string) {
   let ret = {};
-
 }
 
 export function parseCommandArgs(input: string): [cmd: string, args: Record<string, string>] {
   const slices = input.split(" ");
   const cmd = slices[0];
-  const cmdParams = COMMANDS[cmd][2];
   let retArgs = {};
 
-  if (cmdParams === undefined) {
-    return [cmd, retArgs];
+  if (cmd.length === 0) {
+    return ["", retArgs]
   }
-  
-  
 
   return [cmd, retArgs];
 }

@@ -1,6 +1,6 @@
 import { Dispatch, StateUpdater, useEffect, useRef, useState } from "preact/hooks";
 import { contains, parseCommandArgs } from "../utils";
-import { CommandNotFound, COMMANDS } from "../commands";
+import { CommandNotFound, COMMANDS, Empty } from "../commands";
 
 export let PWD = "~";
 export const CMD_LENGTH = 64;
@@ -27,7 +27,7 @@ type PastCommands = {
 
 function getCmd(cmd: string): any {
   if (cmd.length === 0) {
-    return () => null
+    return () => Empty
   }
 
   if (!contains(cmd, COMMANDS)) {

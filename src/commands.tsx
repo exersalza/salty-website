@@ -13,7 +13,8 @@ export const COMMANDS: Record<string, Command> = {
   neofetch: [() => Default, "Does neofetch stuff"],
   man: [() => Man, "Shows help for the commands. man [COMMAND]", [{
     name: "command",
-  }]]
+  }]],
+  __EMPTY__: [() => Empty, ""]
 };
 
 function Default() {
@@ -22,6 +23,10 @@ function Default() {
 
 interface CommandNotFoundProps {
   cmd: string;
+}
+
+export function Empty() {
+  return (<></>)
 }
 
 export function CommandNotFound(props: CommandNotFoundProps) {
