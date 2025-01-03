@@ -22,7 +22,7 @@ interface PrefixProps {
 type PastCommands = {
   cmd: string,
   pwd: string,
-  args?: Arg[]
+  args?: string[]
 }
 
 function getCmd(cmd: string): any {
@@ -70,7 +70,7 @@ function CommandElement({ setPastCommands }: CMDProps) {
       if (contains(v, ["clear", "cls"])) { // special commands
         pastCmds = [];
       } else {
-        pastCmds = (prev: PastCommands[]) => prev.concat({ cmd: v, pwd: PWD });
+        pastCmds = (prev: PastCommands[]) => ([...prev, { cmd: v, pwd: PWD, args: args }]);
       }
 
       setPastCommands(pastCmds)
@@ -109,7 +109,7 @@ export function Term() {
   const [pastCommands, setPastCommands] = useState<PastCommands[]>([{ cmd: "help", pwd: "~" }]);
 
   return (
-    <div class={"w-full rounded bg-zinc-800 p-1 pt-0 font-mono"}>
+    <div class={"w-full rounded bg-zinc-800 p-1 pt-0 font-mono overflow-y-auto"}>
       {pastCommands.map((ele) => {
         return (
           <FinishedCommandElement pwd={ele.pwd} cmd={ele.cmd} />

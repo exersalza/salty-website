@@ -14,7 +14,6 @@ export function contains(needle: any, haystack: any): boolean {
     return false
   }
 
-
   // Object key search
   if (typeof haystack === "object") {
     for (let i of Object.keys(haystack)) {
@@ -25,18 +24,23 @@ export function contains(needle: any, haystack: any): boolean {
   }
 }
 
-function parseArgTypes(cmd: string) {
-  let ret = {};
-}
-
-export function parseCommandArgs(input: string): [cmd: string, args: Record<string, string>] {
+export function parseCommandArgs(input: string): [cmd: string, args: string[]] {
   const slices = input.split(" ");
-  const cmd = slices[0];
-  let retArgs = {};
+  const cmd: string = slices.splice(0, 1)[0];
+  let retArgs = slices;
 
   if (cmd.length === 0) {
     return ["", retArgs]
   }
 
   return [cmd, retArgs];
+}
+
+export const copyToClipboard = async (text: string) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    console.debug("Copied:", text, "to clipboard");
+  } catch (e) {
+    console.error("Couldn't copy text to clipboard")
+  }
 }
