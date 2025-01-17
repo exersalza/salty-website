@@ -9,3 +9,10 @@ type Arg = {
 type ArgList = {
   [key: string]: string;
 }
+
+
+type PastCommands = {
+  cmd: string,
+  pwd: string,
+  args?: string[]
+}

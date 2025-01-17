@@ -1,14 +1,9 @@
 import { Dispatch, StateUpdater, useEffect, useRef, useState } from "preact/hooks";
 import { contains, parseCommandArgs } from "../utils";
-import { CommandNotFound, COMMANDS, Empty } from "../commands";
+import { ArgParse, Args } from "../commands";
 
 export let PWD = "~";
 export const CMD_LENGTH = 64;
-
-interface FCmdProps {
-  cmd: string
-  pwd?: string
-}
 
 interface CMDProps {
   setPastCommands: Dispatch<StateUpdater<PastCommands[]>>,
@@ -19,24 +14,6 @@ interface PrefixProps {
   pwd: string
 }
 
-type PastCommands = {
-  cmd: string,
-  pwd: string,
-  args?: string[]
-}
-
-function getCmd(cmd: string): any {
-  if (cmd.length === 0) {
-    return () => Empty
-  }
-
-  if (!contains(cmd, COMMANDS)) {
-    return () => CommandNotFound;
-  }
-
-  return COMMANDS[cmd][0];
-}
-
 function Prefix(props: PrefixProps) {
   return (
     <span>
@@ -45,18 +22,6 @@ function Prefix(props: PrefixProps) {
   )
 }
 
-function FinishedCommandElement(props: FCmdProps) {
-  let ToRender = getCmd(props.cmd)();
-
-  return (
-    <div>
-      <div className={"flex gap-2"}>
-        <Prefix pwd={props.pwd} /><span className={`${contains(props.cmd, COMMANDS) ? "text-green-500" : "text-red-500"}`}>{props.cmd}</span>
-      </div>
-      <ToRender cmd={props.cmd} />
-    </div>
-  )
-}
 
 function CommandElement({ setPastCommands }: CMDProps) {
   const [value, setValue] = useState<string>("");
@@ -66,14 +31,14 @@ function CommandElement({ setPastCommands }: CMDProps) {
     if (e.key === "Enter") {
       let pastCmds: any;
       let [v, args] = parseCommandArgs(inputRef.current.value);
-      
+
       if (contains(v, ["clear", "cls"])) { // special commands
         pastCmds = [];
       } else {
         pastCmds = (prev: PastCommands[]) => ([...prev, { cmd: v, pwd: PWD, args: args }]);
       }
 
-      setPastCommands(pastCmds)
+      setPastCommands(pastCmds);
 
       inputRef.current.value = "";
     }
@@ -91,7 +56,7 @@ function CommandElement({ setPastCommands }: CMDProps) {
   return (
     <div className={"flex gap-2"}>
       <Prefix pwd={String(PWD)} />
-      <input className={`bg-transparent min-w-max outline-0 no-underline caret-white ${contains(value, COMMANDS) ? "text-green-500" : "text-red-500"}`}
+      <input className={`bg-transparent min-w-max outline-0 no-underline caret-white`}
         size={CMD_LENGTH}
         type="text"
         ref={inputRef}
@@ -107,14 +72,14 @@ function CommandElement({ setPastCommands }: CMDProps) {
 
 export function Term() {
   const [pastCommands, setPastCommands] = useState<PastCommands[]>([{ cmd: "help", pwd: "~" }]);
+  let argparse = new ArgParse();
+
+  argparse.addArg(new Args("cool_argument2", "-s"));
+  argparse.addArg(new Args("cool_argument"));
+  argparse.parseArgs("test aychar -h needs help");
 
   return (
     <div class={"w-full rounded bg-zinc-800 p-1 pt-0 font-mono overflow-y-auto"}>
-      {pastCommands.map((ele) => {
-        return (
-          <FinishedCommandElement pwd={ele.pwd} cmd={ele.cmd} />
-        )
-      })}
       <CommandElement setPastCommands={setPastCommands} />
     </div>
   )

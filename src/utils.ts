@@ -44,3 +44,4 @@ export const copyToClipboard = async (text: string) => {
     console.error("Couldn't copy text to clipboard")
   }
 }
+

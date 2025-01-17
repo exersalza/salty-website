@@ -1,0 +1,7 @@
+- [ ] command overhaul to a regristration system
+    - userinfo command
+    - ls
+    - pwd
+    - ja
+- [ ] local accounts
+- [ ] file system
