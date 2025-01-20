@@ -2,6 +2,7 @@ import { Hello } from "./commands/hello";
 import { Help } from "./commands/help";
 import { Ls } from "./commands/ls";
 import { Man } from "./commands/man";
+import { MiniHelp } from "./commands/mini_help";
 
 
 export const COMMANDS: Record<string, Command> = {
@@ -11,6 +12,7 @@ export const COMMANDS: Record<string, Command> = {
   ls: [() => Ls, "List contents of current directory"],
   cls: [() => Default, "Alias for clear"],
   neofetch: [() => Default, "Does neofetch stuff"],
+  mini_help: [() => MiniHelp, "Mini Help page"],
   man: [() => Man, "Shows help for the commands. man [COMMAND]", [{
     name: "command",
   }]],

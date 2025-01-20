@@ -106,7 +106,7 @@ function CommandElement({ setPastCommands }: CMDProps) {
 }
 
 export function Term() {
-  const [pastCommands, setPastCommands] = useState<PastCommands[]>([{ cmd: "help", pwd: "~" }]);
+  const [pastCommands, setPastCommands] = useState<PastCommands[]>([{ cmd: "mini_help", pwd: "~" }]);
 
   return (
     <div class={"w-full rounded bg-zinc-800 p-1 pt-0 font-mono overflow-y-auto"}>
