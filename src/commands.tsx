@@ -1,36 +1,49 @@
-export class Args {
+import { Component, ComponentChild, RenderableProps } from "preact"
+import { useState } from "preact/hooks"
+import { Command } from "vscode-css-languageservice"
+
+export class Arg {
   name = ""
   short = ""
   long = ""
   desc = ""
   mandatory = false
+  takes = 0
 
 
   // idk what the word is but we ball
-  constructor(name: string, short?: string, long?: string, description?: string) {
+  /**
+   *  @param name         The name of the argument
+   *  @param short        The short arg trigger, starts with one '-'
+   *  @param long         the long arg trigger, starts with two '-'
+   *  @param takes        Takes N many arguments
+   *  @param description  description, what did you expect?
+   *
+   * */
+  constructor(name: string, short?: string, long?: string, description?: string, takes?: number) {
     this.name = name;
     this.desc = description ?? "";
 
     this.short = short ?? "";
     this.long = long ?? "";
+    this.takes = takes ?? 0;
 
-    if (this.short === "" && this.long === "") {
-      this.mandatory = true;
-      console.log("MAKE ME TRUE")
-    }
+    this.mandatory = this.short === "" && this.long === "";
+
   }
 }
+
 
 type IdkYet = {}
 
 export class ArgParse {
-  private internalArgs: Args[] = []
+  private internalArgs: Arg[] = []
 
   constructor() {
 
   }
 
-  addArg(arg: Args) {
+  addArg(arg: Arg) {
     this.internalArgs.push(arg);
   }
 
@@ -41,17 +54,19 @@ export class ArgParse {
     const mands = this.countMands(args);
 
     splitedInput.forEach((value, index) => {
+
     })
 
+    return splitedInput;
   }
 
-  private sortArgs(): Args[] {
+  private sortArgs(): Arg[] {
     let internalArgsCopy = this.internalArgs;
     let newArray = [];
 
     internalArgsCopy.forEach((value, index) => {
       if (value.mandatory) {
-        // prob stupid but who cares ... i care  FIX: later
+        // prob stupid but who cares ... i care  FIX: later, its later now, fix later
         newArray.push(this.internalArgs.splice(index, 1)[0]);
       }
     });
@@ -60,7 +75,7 @@ export class ArgParse {
     return newArray
   }
 
-  private countMands(args: Args[]): number {
+  private countMands(args: Arg[]): number {
     let count = 0;
     args.forEach((value) => { if (value.mandatory) count += 1 });
 
@@ -68,25 +83,20 @@ export class ArgParse {
   }
 }
 
-class Command {
-  name = ""
-  args = []
-
-  constructor(name: string, args?: Args[]) {
-    this.name = name;
-    this.args = args;
-  }
+interface CommandProps {
+  name: string,
+  args?: Arg[]
 }
 
-class Commands {
-  private commands: Command[] = []
 
-  constructor() { }
+function Command(props: CommandProps) {
+  const [state,  setState] = useState<CommandProps>(props);
 
-  getCommands(): Command[] { }
+  return (
+    <div>
 
-  registerCommand(cmd: Command) { }
-  unregisterCommand(cmd: Command) { }
+    </div>
+  )
 }
 
 

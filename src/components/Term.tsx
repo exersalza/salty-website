@@ -1,6 +1,6 @@
 import { Dispatch, StateUpdater, useEffect, useRef, useState } from "preact/hooks";
 import { contains, parseCommandArgs } from "../utils";
-import { ArgParse, Args } from "../commands";
+import { Arg, ArgParse, Command} from "../commands";
 
 export let PWD = "~";
 export const CMD_LENGTH = 64;
@@ -44,7 +44,6 @@ function CommandElement({ setPastCommands }: CMDProps) {
     }
   }
 
-
   useEffect(() => {
     window.addEventListener("keydown", handleOnEnter);
 
@@ -71,15 +70,23 @@ function CommandElement({ setPastCommands }: CMDProps) {
 }
 
 export function Term() {
-  const [pastCommands, setPastCommands] = useState<PastCommands[]>([{ cmd: "help", pwd: "~" }]);
+  const cmd = new Command("test");
+  const [pastCommands, setPastCommands] = useState<PastCommands[]>([{ cmd: cmd, pwd: "~" }]);
   let argparse = new ArgParse();
 
-  argparse.addArg(new Args("cool_argument2", "-s"));
-  argparse.addArg(new Args("cool_argument"));
-  argparse.parseArgs("test aychar -h needs help");
+  argparse.addArg(new Arg("cool_argument2", "-s"));
+  argparse.addArg(new Arg("cool_argument"));
+  let args = argparse.parseArgs("should_not_print aychar -h needs help");
+  console.log(args)
 
   return (
     <div class={"w-full rounded bg-zinc-800 p-1 pt-0 font-mono overflow-y-auto"}>
+      <div>
+        {pastCommands.map(({cmd, pwd}) => {
+          return cmd.render();
+      
+        })}
+      </div>
       <CommandElement setPastCommands={setPastCommands} />
     </div>
   )
