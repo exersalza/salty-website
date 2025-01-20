@@ -1,7 +1,6 @@
 import { workspaceSwitcher } from "..";
 import { useEffect, useRef, useState } from "preact/hooks"
 import { Icons } from "./Icons";
-import { copyToClipboard } from "../utils";
 
 // todo:
 //  implement recovery from api overload 
@@ -45,11 +44,22 @@ function transformElement(el: HTMLDivElement, xyEl: any) {
   el.style.transform = transform.apply(null, xyEl);
 }
 
+function Archived({ show }: { show: boolean }) {
+  return (
+    <div className={`${show ? "" : "hidden"} bg-yellow-300/70 h-6 w-[14.875rem] z-50 absolute bottom-8 rounded flex place-items-center justify-center`}>
+      <p>Archived</p>
+    </div>
+  )
+}
+
 
 function Card({ cardData }: any) {
   // updated_at, language, stargazers_count, license
   let language: string = cardData.language?.toLowerCase() ?? "archlinux";
   let description: string = cardData.description ?? "";
+
+  console.log(cardData.created_at)
+  let creationDate = new Date(cardData.created_at);
 
   let cardRef = useRef<HTMLDivElement>(null);
 
@@ -61,6 +71,7 @@ function Card({ cardData }: any) {
     description = "No Description...";
   }
 
+  // just so we can find the icon
   if (language === "shell") language = "bash";
 
   Object.entries(TRANSLATION_TABLE).forEach(([key, value]) => {
@@ -81,51 +92,42 @@ function Card({ cardData }: any) {
     let ref = cardRef.current;
 
     let i = setInterval(() => {
-      if (ref.matches(":hover")) {
-        console.log("i'm hovered")
-        return
-      } 
+      if (ref.matches(":hover")) return;
 
       ref.style.transform = ""
     }, 10);
 
     return () => {
+      clearInterval(i);
     }
-
-
   }, [])
 
   return (
-    <div class={"h-48 w-64 rounded origin-center bg-zinc-700/50 border-zinc-600 border p-2 py-1 subpixel-antialiased will-change-transform"}
+    <div class={"h-48 w-64 rounded origin-center bg-zinc-700/50 border-zinc-600  hover:border-zinc-500 border p-2 py-1 subpixel-antialiased will-change-transform transition-color"}
       ref={cardRef}
       onMouseMove={animate}
     >
+      <Archived show={cardData.archived} />
       <div className={"flex flex-col gap-2 h-full w-full"}>
         <div class={"flex h-6 "}>
-          <a href={cardData.html_url} class={"font-semibold flex place-items-center gap-1"}>
+          <a href={cardData.html_url} target={"_blank"} class={"font-semibold flex place-items-center gap-1"}>
             <i class={`devicon-${language}-plain`}></i>
             {cardData.name}
           </a>
         </div>
         <div className={"h-32 w-full"}>
-          <p className={"block text-ellipsis w-[240px] text-balance text-clip break-words"}>
+          <p className={"block text-ellipsis w-60 text-balance text-clip break-words"}>
             {description}
           </p>
         </div>
         <div className={"flex h-6 w-full self-end place-items-center place-content-between"}>
-          <div className={"flex place-items-center gap-1"}>
+          <div className={"flex place-items-center gap-1 select-none"}>
             {Icons.star}
             {cardData.stargazers_count}
           </div>
-          <div className={"flex gap-1"}>
-            <button className={"flex place-items-center gap-1 text-sm"} onClick={() => copyToClipboard(cardData.ssh_url)}>
-              <span>SSH</span>
-              {Icons.clipboard}
-            </button>
-            <button className={"flex place-items-center gap-1 text-sm"} onClick={() => copyToClipboard(cardData.clone_url)}>
-              <span>HTTPS</span>
-              {Icons.clipboard}
-            </button>
+          <div className={"flex gap-1 select-none"}>
+            <p>Created on</p>
+            <p>{creationDate.toLocaleDateString()}</p>
           </div>
         </div>
       </div>
@@ -140,7 +142,6 @@ export function Things() {
     // if we're not on the site, we dont want to render it.
     if (workspaceSwitcher.value !== 2 || cards.length !== 0) return;
 
-    console.log("do something")
     fetch("https://api.github.com/users/exersalza/repos").then(async (d) => {
       if (!d.ok) {
         console.log(d.status)
@@ -149,7 +150,7 @@ export function Things() {
 
       let fetched_data: Record<string, any>[] = await d.json();
       let data = fetched_data.filter((value) => !value.fork);
-
+      //                                       key     value
       data.splice(arrayObjKeyValueSearch(data, "name", "exersalza"), 1);
       setCards(data);
     })
